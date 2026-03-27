@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SimulationEngine.Events.Busses
+namespace SimulationEngine.Events.Busses.Interfaces
 {
-    internal interface IEventBus<T, P>
+    internal interface IBus<T, P>
     {
-        void RegisterChannel(T eventType);
+        public void RegisterChannel(T eventType);
 
         bool ClearChannel(T eventType);
 

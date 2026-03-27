@@ -1,4 +1,5 @@
-﻿using SimulationEngine.Events.EventTypes;
+﻿using SimulationEngine.Events.Busses.Interfaces;
+using SimulationEngine.Events.EventTypes;
 using SimulationEngine.Events.Payloads;
 using System;
 using System.Collections.Generic;
@@ -7,17 +8,17 @@ using System.Text;
 
 namespace SimulationEngine.Events.Busses
 {
-    internal class PriorityEventBus : IEventBus<ESimulationEvent, EventPayload>
+    internal class PriorityEventBus<T> : IEventBus<T>
     {
-        private readonly Dictionary<ESimulationEvent, List<EventCallback<EventPayload>>> _channels = new();
+        private readonly Dictionary<T, List<EventCallback<EventPayload>>> _channels = new();
 
-        public void RegisterChannel(ESimulationEvent eventType)
+        public void RegisterChannel(T eventType)
         {
             if (!_channels.ContainsKey(eventType))
                 _channels[eventType] = new();
         }
 
-        public bool ClearChannel(ESimulationEvent eventType)
+        public bool ClearChannel(T eventType)
         {
             if (!_channels.TryGetValue(eventType, out var list))
                 return false;
@@ -26,7 +27,7 @@ namespace SimulationEngine.Events.Busses
             return true;
         }
 
-        public bool RemoveChannel(ESimulationEvent eventType)
+        public bool RemoveChannel(T eventType)
         {
             return _channels.Remove(eventType);
         }
@@ -35,7 +36,7 @@ namespace SimulationEngine.Events.Busses
         /// Adds the given Action to the invocation list.
         /// Actions with the same priority are LIFO ordered
         /// </summary>
-        public bool AddListener(ESimulationEvent eventType, EventCallback<EventPayload> callback, int priority = 0, bool enforceEventCreation = false)
+        public bool AddListener(T eventType, EventCallback<EventPayload> callback, int priority = 0, bool enforceEventCreation = false)
         {
             if (!_channels.TryGetValue(eventType, out var list))
             {
@@ -52,7 +53,7 @@ namespace SimulationEngine.Events.Busses
             return true;
         }
 
-        public bool RemoveListener(ESimulationEvent eventType, EventCallback<EventPayload> callback)
+        public bool RemoveListener(T eventType, EventCallback<EventPayload> callback)
         {
             if (!_channels.TryGetValue(eventType, out var list))
                 return false;
@@ -61,7 +62,7 @@ namespace SimulationEngine.Events.Busses
             return removed > 0;
         }
 
-        public int Raise(ESimulationEvent eventType, EventPayload payload)
+        public int Raise(T eventType, EventPayload payload)
         {
             if (!_channels.TryGetValue(eventType, out var list))
                 return -1;
