@@ -17,9 +17,9 @@ namespace SimulationEngine.Source.Data.Units
         protected Unit()
         {
             _stats = new();
-            Stat<ushort> Health = new();
+            /*Stat<ushort> Health = new();
             foreach (EValueType type in Enum.GetValues(typeof(EValueType))) Health.RegisterValue(EValueType.BASE);
-            _stats.RegisterAttribute(EStat.Health, Health);
+            _stats.RegisterAttribute(EStat.Health, Health);*/
         }
     }
 }

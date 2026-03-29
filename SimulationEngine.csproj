@@ -8,7 +8,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Folder Include="Resources\" />
+	  <Folder Include="Resources\Shapes\Simple\Lines\Vertical\" />
+	  <Folder Include="Source\Factories\" />
 	</ItemGroup>
 
     
