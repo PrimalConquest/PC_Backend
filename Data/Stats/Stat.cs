@@ -10,61 +10,61 @@ using System.Text;
 
 namespace SimulationEngine.Data.Stats
 {
-    internal class Attribute<T>
+    internal class Stat<T>
     {
-        private Dictionary<EValueType, T> _values;
+        private Dictionary<EValueType, T?> _values;
         private IEventBus<EValueType> _onValueChanged;
         private IEventBus<EValueType> _onGetValue;
 
-        public Attribute()
+        public Stat()
         {
             _values = new();
             _onValueChanged = new PriorityEventBus<EValueType>();
             _onGetValue = new PriorityEventBus<EValueType>();
         }
-        public Attribute(IEventBus<EValueType> onValueChangedBus, IEventBus<EValueType> onGetValue)
+        public Stat(IEventBus<EValueType> onValueChangedBus, IEventBus<EValueType> onGetValue)
         {
             _values = new();
             _onValueChanged = onValueChangedBus;
             _onGetValue = onGetValue;
         }
 
-        public Attribute(T baseValue) : this()
+        public Stat(T baseValue) : this()
         {
             RegisterValue(EValueType.BASE, baseValue);
         }
 
-        public Attribute(T baseValue, T currentValue) : this(baseValue)
+        public Stat(T baseValue, T currentValue) : this(baseValue)
         {
             RegisterValue(EValueType.CURRENT, currentValue);
         }
 
-        public Attribute(T baseValue, T currentValue, T maxValue) : this(baseValue, currentValue)
+        public Stat(T baseValue, T currentValue, T maxValue) : this(baseValue, currentValue)
         {
             RegisterValue(EValueType.MAX, maxValue);
         }
 
-        public Attribute(T baseValue, T currentValue, T maxValue, T minValue) : this(baseValue, currentValue, maxValue)
+        public Stat(T baseValue, T currentValue, T maxValue, T minValue) : this(baseValue, currentValue, maxValue)
         {
             RegisterValue(EValueType.MIN, minValue);
         }
 
-        public void RegisterValue(EValueType type, T value)
+        public void RegisterValue(EValueType type, T? value = default)
         {
             SetValue(type, value);
             _onValueChanged.RegisterChannel(type);
         }
 
-        public void SetValue(EValueType type, T value)
+        public void SetValue(EValueType type, T? value)
         {
             _values.Add(type, value);
         }
 
-        public T GetValue(EValueType type)
+        public T? GetValue(EValueType type)
         {
-            _values.TryGetValue(type, out T value);
+            _values.TryGetValue(type, out T? value);
 
-            ValuePayload<T> payload = new ValuePayload<T>(value);
+            ValuePayload<T?> payload = new ValuePayload<T?>(value);
 
             _onGetValue.Raise(type, payload);
 

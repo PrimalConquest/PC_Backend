@@ -7,28 +7,28 @@ using System.Text;
 
 namespace SimulationEngine.Data.Stats
 {
-    internal class AttributeSet
+    internal class StatSheet
     {
-        private Dictionary<EStat, Attribute> _attributes;
+        private Dictionary<EStat, Stat<ushort>> _attributes;
         private IEventBus<EStat> _onStatChanged;
 
-        public AttributeSet()
+        public StatSheet()
         {
             _attributes = new();
             _onStatChanged = new PriorityEventBus<EStat>();
         }
-        public AttributeSet(IEventBus<EStat> onValueChangedBus)
+        public StatSheet(IEventBus<EStat> onValueChangedBus)
         {
             _attributes = new();
             _onStatChanged = onValueChangedBus;
         }
 
-        public void RegisterAttribute(EStat stat, Attribute attribute)
+        public void RegisterAttribute(EStat stat, Stat<ushort> attribute)
         {
             _attributes.Add(stat, attribute);
         }
 
-        public Attribute GetAttribute(EStat stat)
+        public Stat<ushort> GetAttribute(EStat stat)
         {
             _attributes.TryGetValue(stat, out var attribute);
             return attribute;

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SimulationEngine.Data.Stats.Enums
 {
-    internal enum EColor
+    internal enum EColor : byte
     {
         RED,
         YELLOW,

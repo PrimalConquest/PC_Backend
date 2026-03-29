@@ -7,6 +7,6 @@ namespace SimulationEngine.Data.Effects
 {
     internal interface IEffect
     {
-        void Apply(Object intigator, Object reciever);
+        void Apply(Object instigator, Object reciever);
     }
 }

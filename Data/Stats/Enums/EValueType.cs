@@ -4,11 +4,12 @@ using System.Text;
 
 namespace SimulationEngine.Data.Stats.Enums
 {
-    internal enum EValueType
+    internal enum EValueType : byte
     {
         BASE,
         CURRENT,
         MIN,
-        MAX
+        MAX,
+        Size
     }
 }

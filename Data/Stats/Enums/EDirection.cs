@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SimulationEngine.Data.Stats.Enums
 {
-    internal enum EDirection
+    internal enum EDirection : byte
     {
         Up,
         Down,
