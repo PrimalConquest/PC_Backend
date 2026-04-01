@@ -12,7 +12,7 @@ namespace SimulationEngine.Source.Data.Geometry
         ///<summary>
         ///Ancher point must be the leftmost point on the bottom row of the shape
         ///</summary>
-        public Point Anchor { get; set; }
+        //public Point Anchor { get; set; }
         public HashSet<Point>? Offsets { get; set; }
 
         public Shape()

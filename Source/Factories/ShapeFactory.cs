@@ -22,7 +22,6 @@ namespace SimulationEngine.Source.Factories
                 LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"ShapeFactory:GetShape There is no shape with id: {shapeId}");
                 return new();
             }
-
             Shape s = Shape.Parse(sRows);
             _parsedShapes.Add(shapeId, s);
             return s;

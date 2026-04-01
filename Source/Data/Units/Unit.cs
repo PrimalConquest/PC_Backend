@@ -9,13 +9,17 @@ namespace SimulationEngine.Source.Data.Units
     internal abstract class Unit
     {
         StatSheet _stats;
-        public uint ID { get; set; }
-        public EColor Color { get; set; }
+        public uint Id { get; private set; }
+        public EColor Color { get; private set; }
 
         //Add Activate Ability
         
-        protected Unit()
+        protected Unit(uint id)
         {
+            Id = id;
+
+            //if(color )
+            
             _stats = new();
             /*Stat<ushort> Health = new();
             foreach (EValueType type in Enum.GetValues(typeof(EValueType))) Health.RegisterValue(EValueType.BASE);

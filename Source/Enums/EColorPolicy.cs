@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace SimulationEngine.Source.Enums
 {
-    internal enum EColor : byte
+    internal enum EColorPolicy
     {
-        Red,
-        Yellow,
-        Blue,
-        Green,
-        Gray
+        Constant,
+        Random,
+        Changing,
+        Any
     }
 }
