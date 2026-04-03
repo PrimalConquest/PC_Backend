@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SimulationEngine.Source.Enums.Stats
 {
-    internal enum EStat
+    public enum EStat
     {
         Health,
         Color,

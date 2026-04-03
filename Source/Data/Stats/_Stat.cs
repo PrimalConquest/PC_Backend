@@ -11,41 +11,41 @@ using SimulationEngine.Source.Enums.Logging;
 
 namespace SimulationEngine.Source.Data.Stats
 {
-    internal class Stat<T>
+    internal class _Stat<T>
     {
         private Dictionary<EValueType, T?> _values;
         private IEventBus<EValueType, ValuePayload<T>> _onValueChanged;
         private IEventBus<EValueType, ValuePayload<T>> _onGetValue;
 
-        public Stat()
+        public _Stat()
         {
             _values = new();
             _onValueChanged = new PriorityEventBus<EValueType, ValuePayload<T>>();
             _onGetValue = new PriorityEventBus<EValueType, ValuePayload<T>>();
         }
-        public Stat(IEventBus<EValueType, ValuePayload<T>> onValueChangedBus, IEventBus<EValueType, ValuePayload<T>> onGetValue)
+        public _Stat(IEventBus<EValueType, ValuePayload<T>> onValueChangedBus, IEventBus<EValueType, ValuePayload<T>> onGetValue)
         {
             _values = new();
             _onValueChanged = onValueChangedBus;
             _onGetValue = onGetValue;
         }
 
-        public Stat(T baseValue) : this()
+        public _Stat(T baseValue) : this()
         {
             RegisterValue(EValueType.BASE, baseValue);
         }
 
-        public Stat(T baseValue, T currentValue) : this(baseValue)
+        public _Stat(T baseValue, T currentValue) : this(baseValue)
         {
             RegisterValue(EValueType.CURRENT, currentValue);
         }
 
-        public Stat(T baseValue, T currentValue, T maxValue) : this(baseValue, currentValue)
+        public _Stat(T baseValue, T currentValue, T maxValue) : this(baseValue, currentValue)
         {
             RegisterValue(EValueType.MAX, maxValue);
         }
 
-        public Stat(T baseValue, T currentValue, T maxValue, T minValue) : this(baseValue, currentValue, maxValue)
+        public _Stat(T baseValue, T currentValue, T maxValue, T minValue) : this(baseValue, currentValue, maxValue)
         {
             RegisterValue(EValueType.MIN, minValue);
         }

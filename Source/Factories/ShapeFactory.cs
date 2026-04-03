@@ -14,7 +14,10 @@ namespace SimulationEngine.Source.Factories
 
         public static Shape GetShape(string shapeId)
         {
-            if(_parsedShapes.ContainsKey(shapeId)) return _parsedShapes[shapeId];
+            if (_parsedShapes.ContainsKey(shapeId))
+            {
+                return _parsedShapes[shapeId];
+            }
             string[]? sRows = ShapeHelper.Parse(shapeId);
 
             if (sRows == null)

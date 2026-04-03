@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SimulationEngine.Source.Data.Stats;
 using SimulationEngine.Source.Enums.Logging;
+using SimulationEngine.Source.Enums.Stats;
 using SimulationEngine.Source.Systems;
 using System;
 using System.Collections.Generic;
@@ -13,14 +15,14 @@ namespace SimulationEngine.Source.Helpers
     {
         static string _resourcePath = "StatSheets.";
 
-        public static Dictionary<string, ushort>? Parse(string id)
+        public static Dictionary<EStat, ushort>? Parse(string id)
         {
             string resource = _resourcePath + id + ".json";
             string? json = ResourceSystem.Get(resource);
 
             if (json == null)
             {
-                LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"StatSheetHelper:Parse Could not unpack resource: {resource}");
+                LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"StatSheetHelper.Parse Could not unpack resource: {resource}");
                 return null;
             }
 
@@ -28,11 +30,23 @@ namespace SimulationEngine.Source.Helpers
 
             if (statInfo == null)
             {
-                LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"StatSheetHelper:Parse Cannot parse StatSheet in resource: {resource}");
+                LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"StatSheetHelper.Parse Cannot parse StatSheet in resource: {resource}");
                 return null;
             }
 
-            return statInfo;
+            return ConvertKeys(statInfo);
+        }
+
+        public static Dictionary<EStat, ushort>? ConvertKeys(Dictionary<string, ushort> raw)
+        {
+            var result = new Dictionary<EStat, ushort>();
+            foreach (var kv in raw)
+            {
+                EStat? stat = StatHelper.ToStat(kv.Key);
+                if (stat.HasValue)
+                    result[stat.Value] = kv.Value;
+            }
+            return result.Count > 0 ? result : null;
         }
     }
 }

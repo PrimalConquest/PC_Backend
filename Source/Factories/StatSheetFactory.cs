@@ -1,6 +1,7 @@
 ﻿using SimulationEngine.Source.Data.Geometry;
 using SimulationEngine.Source.Data.Stats;
 using SimulationEngine.Source.Enums.Logging;
+using SimulationEngine.Source.Enums.Stats;
 using SimulationEngine.Source.Helpers;
 using SimulationEngine.Source.Systems;
 using System;
@@ -19,11 +20,11 @@ namespace SimulationEngine.Source.Factories
             {
                 return  _parsedShapes[sheetId].DeepCopy();
             }
-            Dictionary<string, ushort>? StatInfo = StatSheetHelper.Parse(sheetId);
+            Dictionary<EStat, ushort>? StatInfo = StatSheetHelper.Parse(sheetId);
 
             if (StatInfo == null)
             {
-                LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"StatSheetFactory:GetSheet There is no stat sheet with id: {sheetId}");
+                LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"StatSheetFactory.GetSheet There is no stat sheet with id: {sheetId}");
                 return null;
             }
             

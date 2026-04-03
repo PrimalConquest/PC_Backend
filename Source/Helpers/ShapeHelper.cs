@@ -21,7 +21,7 @@ namespace SimulationEngine.Source.Helpers
 
             if (json == null)
             {
-                LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"ShapeHelper:Parse Could not unpack resource: {_resource}");
+                LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"ShapeHelper.Parse Could not unpack resource: {_resource}");
                 return null;
             }
 
@@ -29,7 +29,7 @@ namespace SimulationEngine.Source.Helpers
 
             if (shapeMap == null)
             {
-                LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"ShapeHelper:Parse There is no shape with id: {id} in resource: {_resource}");
+                LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"ShapeHelper.Parse There is no shape with id: {id} in resource: {_resource}");
                 return null;
             }
 

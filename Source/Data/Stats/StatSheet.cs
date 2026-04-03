@@ -11,22 +11,22 @@ namespace SimulationEngine.Source.Data.Stats
 {
     public class StatSheet
     {
-        private Dictionary<string, ushort> _stats;
+        private Dictionary<EStat, ushort> _stats;
 
-        private IEventBus<string, ValuePayload<ushort>> _onGetValue;
+        private IEventBus<EStat, ValuePayload<ushort>> _onGetValue;
         //make it into value changed PAYLOAD-----------------------------------------------------------------------------------------
-        private IEventBus<string, ValuePayload<ushort>> _onValueChanged;
+        private IEventBus<EStat, ValuePayload<ushort>> _onValueChanged;
 
         public StatSheet()
         {
             _stats = new();
-            _onValueChanged = new PriorityEventBus<string, ValuePayload<ushort>>();
-            _onGetValue = new PriorityEventBus<string, ValuePayload<ushort>>();
+            _onValueChanged = new PriorityEventBus<EStat, ValuePayload<ushort>>();
+            _onGetValue = new PriorityEventBus<EStat, ValuePayload<ushort>>();
         }
 
-        public StatSheet(Dictionary<string, ushort> info) : this()
+        public StatSheet(Dictionary<EStat, ushort> info) : this()
         {
-            foreach (KeyValuePair<string, ushort> stat in info)
+            foreach (KeyValuePair<EStat, ushort> stat in info)
             {
                 RegisterStat(stat.Key, stat.Value);
             }
@@ -42,21 +42,21 @@ namespace SimulationEngine.Source.Data.Stats
             return copy;
         }
 
-        public void RegisterStat(string stat, ushort value)
+        public void RegisterStat(EStat stat, ushort value)
         {
             _stats.Add(stat, value);
             _onGetValue.RegisterChannel(stat);
             _onValueChanged.RegisterChannel(stat);
         }
 
-        public void SetStat(string stat, ushort value)
+        public void SetStat(EStat stat, ushort value)
         {
             _stats[stat] = value;
             ValuePayload<ushort> payload = new ValuePayload<ushort>(value);
             _onValueChanged.Raise(stat, payload);
         }
 
-        public ushort GetStat(string stat)
+        public ushort GetStat(EStat stat)
         {
             _stats.TryGetValue(stat, out var value);
             ValuePayload<ushort> payload = new ValuePayload<ushort>(value);
