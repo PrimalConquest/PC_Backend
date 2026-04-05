@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SimulationEngine.Source.Enums
 {
-    internal enum EUnitType
+    internal enum _EUnitType
     {
         Troop,
         Officer,

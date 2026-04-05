@@ -23,6 +23,7 @@
 		
 	
 	<ItemGroup>
+	  <Folder Include="Resources\TargetingSchemes\" />
 	  <Folder Include="Resources\Units\" />
 	</ItemGroup>
 		

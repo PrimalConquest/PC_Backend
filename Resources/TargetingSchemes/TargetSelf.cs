@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SimulationEngine.Source.Helpers
+namespace SimulationEngine.Resources.TargetingSchemes
 {
-    internal class AbilityHelper
+    internal class TargetSelf
     {
     }
 }

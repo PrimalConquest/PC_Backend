@@ -1,4 +1,5 @@
-﻿using SimulationEngine.Source.Data.Units;
+﻿using Newtonsoft.Json.Linq;
+using SimulationEngine.Source.Data.Units;
 using SimulationEngine.Source.Enums.Stats;
 using SimulationEngine.Source.Events.Payloads;
 using SimulationEngine.Source.Interfaces;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace SimulationEngine.Source.Data.Abilities
 {
-    internal abstract class Ability
+    public abstract class Ability : IDeepCopyable<Ability>
     {
         Unit _owner;
         //HashSet<EStat> _scalingStats;
@@ -18,7 +19,7 @@ namespace SimulationEngine.Source.Data.Abilities
 
         public int ActivationCost { get; set; }
         public int Priority { get; private set; }
-        protected Ability(Unit owner, int priority = 5,ITargetingScheme? targetingScheme = null)
+        protected Ability(Unit owner, int priority = 5, ITargetingScheme? targetingScheme = null)
         {
             _owner = owner;
             //_scalingStats = new();
@@ -54,6 +55,25 @@ namespace SimulationEngine.Source.Data.Abilities
         }
 
         abstract public void Activate(EventPayload payload);
-        abstract public void Extract(string json);
+        abstract public void Extract(JObject spec);
+
+        virtual public Ability DeepCopy(Unit owner)
+        {
+            Ability ability = DeepCopy();
+            ability._owner = owner;
+            if (_targetingScheme != null)
+            {
+                ability._targetingScheme = _targetingScheme.DeepCopy();
+            }
+            else
+            {
+                ability._targetingScheme = null;
+            }
+            ability.ActivationCost = ActivationCost;
+            ability.Priority = Priority;
+            return ability;
+        }
+
+        public abstract Ability DeepCopy();
     }
 }

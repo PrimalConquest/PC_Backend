@@ -1,7 +1,9 @@
-﻿using SimulationEngine.Source.Data.Geometry;
+﻿using SimulationEngine.Source.Data.Abilities;
+using SimulationEngine.Source.Data.Geometry;
 using SimulationEngine.Source.Data.Units;
+using SimulationEngine.Source.Enums.EventTypes;
 using SimulationEngine.Source.Enums.Logging;
-using SimulationEngine.Source.Helpers;
+using SimulationEngine.Source.Helpers.Units;
 using SimulationEngine.Source.Systems;
 using System;
 using System.Collections.Generic;
@@ -15,17 +17,27 @@ namespace SimulationEngine.Source.Factories
 
         public static Unit? GetUnit(string unitId)
         {
-            if (_parsedUnits.ContainsKey(unitId)) return _parsedUnits[unitId];
-            string[]? sRows = ShapeHelper.Parse(unitId);
-
-            if (sRows == null)
+            if (_parsedUnits.ContainsKey(unitId))
             {
-                LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"ShapeFactory:GetShape There is no unit with id: {unitId}");
+                return _parsedUnits[unitId].DeepCopy();
+            }
+
+            UnitData? data = UnitHelper.Parse(unitId);
+            if (data == null)
+            {
+                LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"UnitFactory.GetUnit");
                 return null;
             }
-            //Unit s = Shape.Parse(sRows);
-           // _parsedUnits.Add(unitId, s);
+
+
+
+            //_parsedUnits.Add(unitId, new());
             return null;
+        }
+
+        static Dictionary<EUnitEvent, Ability> GetAbilitymap(Dictionary<string, string> jsonMap)
+        {
+            return new();
         }
     }
 }

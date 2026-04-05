@@ -1,0 +1,9 @@
+{
+  "Color": "Any",
+  "ShapeId": "Tile",
+  "StatSheetId": "ToopSheet",
+  "Abilitymap": {
+    "Activate": "LaunchTroop",
+    "Die": "GrantEnergy"
+  }
+}

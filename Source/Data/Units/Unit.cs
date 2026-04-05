@@ -7,6 +7,7 @@ using SimulationEngine.Source.Enums.Logging;
 using SimulationEngine.Source.Enums.Stats;
 using SimulationEngine.Source.Events.Busses;
 using SimulationEngine.Source.Events.Payloads;
+using SimulationEngine.Source.Interfaces;
 using SimulationEngine.Source.Interfaces.Events;
 using SimulationEngine.Source.Systems;
 using System;
@@ -15,7 +16,7 @@ using System.Text;
 
 namespace SimulationEngine.Source.Data.Units
 {
-    internal class Unit
+    public class Unit : IDeepCopyable<Unit>
     {
 
         Point _position;
@@ -112,5 +113,9 @@ namespace SimulationEngine.Source.Data.Units
             UnitEventBus.AddListener(activation, new(ability.Activate, ability.Priority));
         }
 
+        public Unit DeepCopy()
+        {
+            return new(0,new());
+        }
     }
 }

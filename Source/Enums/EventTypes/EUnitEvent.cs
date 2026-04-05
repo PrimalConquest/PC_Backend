@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SimulationEngine.Source.Enums.EventTypes
 {
-    internal enum EUnitEvent
+    public enum EUnitEvent
     {
         GetStat,
         TryActivate,

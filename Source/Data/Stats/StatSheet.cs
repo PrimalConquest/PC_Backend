@@ -4,6 +4,7 @@ using SimulationEngine.Source.Enums.Stats;
 using SimulationEngine.Source.Events;
 using SimulationEngine.Source.Events.Busses;
 using SimulationEngine.Source.Events.Payloads;
+using SimulationEngine.Source.Interfaces;
 using SimulationEngine.Source.Interfaces.Events;
 using SimulationEngine.Source.Systems;
 using System;
@@ -12,7 +13,7 @@ using System.Text;
 
 namespace SimulationEngine.Source.Data.Stats
 {
-    public class StatSheet
+    public class StatSheet : IDeepCopyable<StatSheet>
     {
         private Dictionary<EStat, int> _stats;
 

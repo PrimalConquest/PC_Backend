@@ -1,4 +1,5 @@
-﻿using SimulationEngine.Source.Data.Units;
+﻿using Newtonsoft.Json.Linq;
+using SimulationEngine.Source.Data.Units;
 using SimulationEngine.Source.Enums.Stats;
 using SimulationEngine.Source.Events.Payloads;
 using System;
@@ -9,6 +10,9 @@ namespace SimulationEngine.Source.Data.Abilities
 {
     internal class GrantStat : Ability
     {
+        EStat _stat;
+        int _value;
+
         public GrantStat(Unit owner) : base(owner)
         {
         }
@@ -17,10 +21,22 @@ namespace SimulationEngine.Source.Data.Abilities
         {
             List<Unit> targets = GetTargets();
 
-            if (targets.Count == 0) return;
+            foreach(Unit target in targets)
+            {
+                target.Stats.GrantStat(_stat, _value);
+            }
 
         }
-        public override void Extract(string json)
+
+        public override Ability DeepCopy()
+        {
+            GrantStat ability = new(Owner);
+            ability._stat = _stat;
+            ability._value = _value;
+            return ability;
+        }
+
+        public override void Extract(JObject spec)
         {
             //throw new NotImplementedException();
         }

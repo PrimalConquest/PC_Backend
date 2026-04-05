@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SimulationEngine.Source.Enums
 {
-    internal enum EColorPolicy
+    internal enum _EColorPolicy
     {
         Constant,
         Random,

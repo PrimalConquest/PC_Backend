@@ -20,7 +20,7 @@ namespace SimulationEngine.Source.Factories
             {
                 return  _parsedShapes[sheetId].DeepCopy();
             }
-            Dictionary<EStat, ushort>? StatInfo = StatSheetHelper.Parse(sheetId);
+            Dictionary<EStat, int>? StatInfo = StatSheetHelper.Parse(sheetId);
 
             if (StatInfo == null)
             {

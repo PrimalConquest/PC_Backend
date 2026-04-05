@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SimulationEngine.Source.Helpers
+namespace SimulationEngine.Resources.Abilities
 {
-    internal class UnitHelper
+    internal class GrantEnergy
     {
     }
 }

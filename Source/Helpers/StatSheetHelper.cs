@@ -15,7 +15,7 @@ namespace SimulationEngine.Source.Helpers
     {
         static string _resourcePath = "StatSheets.";
 
-        public static Dictionary<EStat, ushort>? Parse(string id)
+        public static Dictionary<EStat, int>? Parse(string id)
         {
             string resource = _resourcePath + id + ".json";
             string? json = ResourceSystem.Get(resource);
@@ -26,7 +26,7 @@ namespace SimulationEngine.Source.Helpers
                 return null;
             }
 
-            Dictionary<string, ushort>? statInfo = JsonConvert.DeserializeObject<Dictionary<string, ushort>>(json);
+            Dictionary<string, int>? statInfo = JsonConvert.DeserializeObject<Dictionary<string, int>>(json);
 
             if (statInfo == null)
             {
@@ -37,9 +37,9 @@ namespace SimulationEngine.Source.Helpers
             return ConvertKeys(statInfo);
         }
 
-        public static Dictionary<EStat, ushort>? ConvertKeys(Dictionary<string, ushort> raw)
+        public static Dictionary<EStat, int>? ConvertKeys(Dictionary<string, int> raw)
         {
-            var result = new Dictionary<EStat, ushort>();
+            var result = new Dictionary<EStat, int>();
             foreach (var kv in raw)
             {
                 EStat? stat = StatHelper.ToStat(kv.Key);
