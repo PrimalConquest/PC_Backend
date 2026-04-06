@@ -4,6 +4,6 @@
   "Priority": 2,
   "TargetingId": "TargetSelf",
   "Specific": {
-    "Toll" :  17
+    "Energy": 15
   }
 }

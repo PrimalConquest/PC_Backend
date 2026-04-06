@@ -31,7 +31,7 @@ namespace SimulationEngine.Source.Factories
                 return null;
             }
 
-            var type = Type.GetType("SimulationEngine.Source.Data.Abilities." + data.Class);
+            var type = Type.GetType("SimulationEngine.Source.Data.TargetingSchemes." + data.Class);
             ITargetingScheme? scheme = (ITargetingScheme)Activator.CreateInstance(type);
 
             if (scheme == null)

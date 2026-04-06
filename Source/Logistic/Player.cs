@@ -6,16 +6,14 @@ using System.Text;
 
 namespace SimulationEngine.Source.Logistic
 {
-    internal class Player
+    public class Player
     {
         uint _id;
-        Unit? _commander;
         //Board _board;
 
-        public Player(uint id, string commanderId)
+        public Player(uint id)
         {
             _id = id;
-            _commander = UnitFactory.GetUnit(commanderId);
         }
     }
 }

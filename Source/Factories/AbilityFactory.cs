@@ -35,7 +35,7 @@ namespace SimulationEngine.Source.Factories
             ITargetingScheme? scheme = TargetingSchemeFactory.GetTargetingScheme(data.TargetingId);
 
             var type = Type.GetType("SimulationEngine.Source.Data.Abilities." + data.Class);
-            Ability? ability = (Ability)Activator.CreateInstance(type, owner, data.Priority, data.TargetingId);
+            Ability? ability = (Ability)Activator.CreateInstance(type, owner, data.Priority, scheme);
 
             if (ability == null)
             {

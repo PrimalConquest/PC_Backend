@@ -1,7 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SimulationEngine.Source.Data.Units;
 using SimulationEngine.Source.Enums.Stats;
 using SimulationEngine.Source.Events.Payloads;
+using SimulationEngine.Source.Helpers;
+using SimulationEngine.Source.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +16,7 @@ namespace SimulationEngine.Source.Data.Abilities
         EStat _stat;
         int _value;
 
-        public GrantStat(Unit owner) : base(owner)
+        public GrantStat(Unit owner, int priority = 5, ITargetingScheme? targetingScheme = null) : base(owner, priority, targetingScheme)
         {
         }
 
@@ -38,7 +41,11 @@ namespace SimulationEngine.Source.Data.Abilities
 
         public override void Extract(JObject spec)
         {
-            //throw new NotImplementedException();
+            KeyValuePair<string, int> map = spec.ToObject<KeyValuePair<string, int>>();
+
+            EStat? s = StatHelper.ToStat(map.Key);
+            if(s != null) _stat = s.Value;
+            _value = map.Value;
         }
     }
 }

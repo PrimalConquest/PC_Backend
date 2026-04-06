@@ -9,6 +9,7 @@ using SimulationEngine.Source.Events.Busses;
 using SimulationEngine.Source.Events.Payloads;
 using SimulationEngine.Source.Interfaces;
 using SimulationEngine.Source.Interfaces.Events;
+using SimulationEngine.Source.Logistic;
 using SimulationEngine.Source.Systems;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace SimulationEngine.Source.Data.Units
         Point _position;
 
         Shape _ocupation;
+
+        public Player OwningPlayer { get; private set; }
 
         public uint Id { get; private set; }
 
@@ -38,9 +41,11 @@ namespace SimulationEngine.Source.Data.Units
 
         public IEventBus<EUnitEvent, EventPayload> UnitEventBus { get; private set; }
 
-        public Unit(uint id, StatSheet stats, Shape ocupation = default)
+        public Unit(Player owningPlayer, uint id,EColor color, StatSheet stats, Shape ocupation = default)
         {
+            OwningPlayer = owningPlayer;
             Id = id;
+            Color = color;
             Stats = stats;
             _ocupation = ocupation;
             _abilities = new();
@@ -115,7 +120,14 @@ namespace SimulationEngine.Source.Data.Units
 
         public Unit DeepCopy()
         {
-            return new(0,new());
+            return new(OwningPlayer, SimulationSystem.NextId(), Color, Stats.DeepCopy(), _ocupation);
+        }
+
+        virtual public Unit DeepCopy(Player owningPlayer)
+        {
+            Unit unit = DeepCopy();
+            unit.OwningPlayer = owningPlayer;
+            return unit;
         }
     }
 }
