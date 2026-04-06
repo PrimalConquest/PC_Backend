@@ -61,14 +61,7 @@ namespace SimulationEngine.Source.Data.Abilities
         {
             Ability ability = DeepCopy();
             ability._owner = owner;
-            if (_targetingScheme != null)
-            {
-                ability._targetingScheme = _targetingScheme.DeepCopy();
-            }
-            else
-            {
-                ability._targetingScheme = null;
-            }
+            ability._targetingScheme = _targetingScheme;
             ability.ActivationCost = ActivationCost;
             ability.Priority = Priority;
             return ability;

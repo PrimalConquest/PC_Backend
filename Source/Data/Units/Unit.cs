@@ -26,8 +26,6 @@ namespace SimulationEngine.Source.Data.Units
 
         public Player OwningPlayer { get; private set; }
 
-        public uint Id { get; private set; }
-
         public StatSheet Stats { get; private set; }
         public EColor Color { get; private set; }
 
@@ -41,10 +39,9 @@ namespace SimulationEngine.Source.Data.Units
 
         public IEventBus<EUnitEvent, EventPayload> UnitEventBus { get; private set; }
 
-        public Unit(Player owningPlayer, uint id,EColor color, StatSheet stats, Shape ocupation = default)
+        public Unit(Player owningPlayer, EColor color, StatSheet stats, Shape ocupation = default)
         {
             OwningPlayer = owningPlayer;
-            Id = id;
             Color = color;
             Stats = stats;
             _ocupation = ocupation;
@@ -120,7 +117,7 @@ namespace SimulationEngine.Source.Data.Units
 
         public Unit DeepCopy()
         {
-            return new(OwningPlayer, SimulationSystem.NextId(), Color, Stats.DeepCopy(), _ocupation);
+            return new(OwningPlayer, Color, Stats.DeepCopy(), _ocupation);
         }
 
         virtual public Unit DeepCopy(Player owningPlayer)

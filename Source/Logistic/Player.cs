@@ -9,7 +9,10 @@ namespace SimulationEngine.Source.Logistic
     public class Player
     {
         uint _id;
-        //Board _board;
+        Board _board;
+        Dictionary<uint, Unit> _commanders;
+
+        Dictionary<uint, Unit> _units;
 
         public Player(uint id)
         {

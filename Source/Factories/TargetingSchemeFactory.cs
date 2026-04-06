@@ -18,7 +18,7 @@ namespace SimulationEngine.Source.Factories
         {
             if(_parsedSchemes.ContainsKey(schemeId))
             {
-                return _parsedSchemes[schemeId].DeepCopy();
+                return _parsedSchemes[schemeId];
             }
 
             TargetingSchemeData? data = TargetingSchemeHelper.Parse(schemeId);

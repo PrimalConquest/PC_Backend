@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SimulationEngine.Source.Interfaces
 {
-    public interface ITargetingScheme : IDeepCopyable<ITargetingScheme>
+    public interface ITargetingScheme
     {
         List<Unit> GatherTargets(Unit referenceUnit);
         void Extract(JObject spec);

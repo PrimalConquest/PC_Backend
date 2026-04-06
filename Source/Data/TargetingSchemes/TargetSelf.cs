@@ -9,11 +9,6 @@ namespace SimulationEngine.Source.Data.TargetingSchemes
 {
     internal class TargetSelf : ITargetingScheme
     {
-        public ITargetingScheme DeepCopy()
-        {
-            return new TargetSelf();    
-        }
-
         public void Extract(JObject spec)
         {
             return;

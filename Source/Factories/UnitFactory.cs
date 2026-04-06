@@ -49,7 +49,7 @@ namespace SimulationEngine.Source.Factories
                 return null;
             }
 
-            Unit unit = new(owner, SimulationSystem.NextId(), color.Value, sheet, shape);
+            Unit unit = new(owner, color.Value, sheet, shape);
 
             foreach (KeyValuePair<string, string> pair in data.AbilityMap)
             {
