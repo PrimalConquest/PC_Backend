@@ -41,11 +41,16 @@ namespace SimulationEngine.Source.Data.Abilities
 
         public override void Extract(JObject spec)
         {
-            KeyValuePair<string, int> map = spec.ToObject<KeyValuePair<string, int>>();
-
-            EStat? s = StatHelper.ToStat(map.Key);
-            if(s != null) _stat = s.Value;
-            _value = map.Value;
+            foreach (var prop in spec.Properties())
+            {
+                EStat? s = StatHelper.ToStat(prop.Name);
+                if (s != null)
+                {
+                    _stat = s.Value;
+                    _value = prop.Value.Value<int>();
+                    break;
+                }
+            }
         }
     }
 }
