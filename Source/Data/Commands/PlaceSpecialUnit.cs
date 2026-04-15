@@ -1,4 +1,4 @@
-﻿using SimulationEngine.Source.Data.Geometry;
+using SimulationEngine.Source.Data.Geometry;
 using SimulationEngine.Source.Data.Units;
 using SimulationEngine.Source.Enums.EventTypes;
 using SimulationEngine.Source.Enums.Logging;
@@ -6,15 +6,11 @@ using SimulationEngine.Source.Events.Payloads;
 using SimulationEngine.Source.Interfaces;
 using SimulationEngine.Source.Logistic;
 using SimulationEngine.Source.Systems;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SimulationEngine.Source.Data.Commands
 {
     public class PlaceSpecialUnit : IGameCommand
     {
-
         Player _player;
         bool _isCommander;
         uint _unitId;
@@ -31,31 +27,22 @@ namespace SimulationEngine.Source.Data.Commands
         public bool CanExecute()
         {
             if (SimulationSystem.ActiveGame.CurrentPlayer != _player) return false;
-
             if (_player.BoardUnits.ContainsKey(_unitId)) return false;
-
-            if(!_player.SpecialUnits.TryGetValue(_unitId, out Unit unit)) return false;
- 
+            if (!_player.SpecialUnits.TryGetValue(_unitId, out Unit unit)) return false;
             if (!unit.CanBeDrafted) return false;
 
             Board board = _player.Board;
-            Dictionary<uint, Unit> units = _player.BoardUnits;
 
-            Shape shape = unit.Ocupation;
-
-            List<Cell> shapeSnapshot = new();
-            shapeSnapshot.Add(new Cell { x = 0, y = 0 });
-            if (shape.Offsets != null) shapeSnapshot.AddRange(shape.Offsets);
-
-
-            foreach (Cell extend in shapeSnapshot)
+            foreach (Cell offset in unit.Ocupation.GetOffsets())
             {
-                if (!board.IsInBounds(_pos + extend)) return false;
-                uint unitId = board.Get(_pos + extend);
-                if (unitId != 0)
-                {
-                    if (!units.TryGetValue(unitId, out Unit occupant) || !occupant.CanBeOverriden) return false;
-                }
+                Cell cell = _pos + offset;
+                if (!board.IsInBounds(cell)) return false;
+
+                uint occupantId = board.Get(cell);
+                if (occupantId == 0) continue;
+
+                if (!_player.BoardUnits.TryGetValue(occupantId, out Unit occupant) || !occupant.CanBeOverriden)
+                    return false;
             }
 
             return true;
@@ -65,21 +52,19 @@ namespace SimulationEngine.Source.Data.Commands
         {
             if (!_player.SpecialUnits.TryGetValue(_unitId, out Unit unit)) return;
 
-            Shape shape = unit.Ocupation;
             unit.Position = _pos;
 
-            List<Cell> shapeSnapshot = new();
-            shapeSnapshot.Add(new Cell { x=0, y=0});
-            if (shape.Offsets != null) shapeSnapshot.AddRange(shape.Offsets);
-            
-
-            foreach (Cell extend in shapeSnapshot)
+            foreach (Cell offset in unit.Ocupation.GetOffsets())
             {
-                uint overridenId = _player.Board.Get(_pos + extend);
-                _player.BoardUnits.TryGetValue(overridenId, out Unit overriden);
-                _player.Board.Set(_pos + extend, _unitId);
-                if (overriden != null) overriden.UnitEventBus.Raise(EUnitEvent.Override, new()); //may be give the overriding unit and/or position
-                _player.BoardUnits.Remove(overridenId);
+                Cell cell = _pos + offset;
+                uint overriddenId = _player.Board.Get(cell);
+                _player.Board.Set(cell, _unitId);
+
+                if (_player.BoardUnits.TryGetValue(overriddenId, out Unit overridden))
+                {
+                    overridden.UnitEventBus.Raise(EUnitEvent.Override, new EventPayload());
+                    _player.BoardUnits.Remove(overriddenId);
+                }
             }
 
             _player.BoardUnits.Add(_unitId, unit);

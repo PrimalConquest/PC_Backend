@@ -1,6 +1,6 @@
 {
   "Color": "Gray",
-  "ShapeId": "Square_2",
+  "ShapeId": "Tile",
   "StatSheetId": "CommanderSheets.BasicSlow",
   "AbilityMap": {
   },

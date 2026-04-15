@@ -1,75 +1,39 @@
-﻿using SimulationEngine.Source.Enums.Logging;
-using SimulationEngine.Source.Systems;
-using System;
+using SimulationEngine.Source.Data.Geometry;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SimulationEngine.Source.Data.Geometry
 {
     public struct Shape
     {
-
-        ///<summary>
-        ///Anchor point must be the leftmost point on the bottom row of the shape
-        ///</summary>
-        //public Point Anchor { get; set; }
-        public HashSet<Cell>? Offsets { get; set; }
+        /// <summary>
+        /// Anchor = top-left tile of the shape (lowest y, then lowest x).
+        /// Width  = number of columns (extends in +x direction from anchor).
+        /// Height = number of rows    (extends in +y direction from anchor, y increases downward).
+        /// </summary>
+        public int Width  { get; set; }
+        public int Height { get; set; }
 
         public Shape()
         {
-            Offsets = null;
+            Width  = 1;
+            Height = 1;
         }
 
-        public Shape(HashSet<Cell> offsets)
+        public Shape(int width, int height)
         {
-            Offsets = offsets;
+            Width  = width;
+            Height = height;
         }
 
         /// <summary>
-        /// <para>
-        /// Parse a shape from a string grid pattern.<br/>
-        /// 'X' = occupied cell, '_' = empty. <br/>
-        /// Rows are defined top-to-bottom in the string array, but Y increases upward internally (row 0 of array = top = highest Y).<br/>
+        /// Enumerates all cell offsets relative to the anchor (top-left = {x:0, y:0}).
+        /// dx in [0, Width), dy in [0, Height).  y increases downward.
         /// </summary>
-        public static Shape Parse(string[] rows)
+        public IEnumerable<Cell> GetOffsets()
         {
-            if (rows == null || rows.Length == 0)
-            {
-                LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, "Shape:Parse - Shape pattern must have at least one row");
-                return new();
-            }
-
-            if(rows.Length == 1 && rows[0].Length == 1) return new();
-
-            int height = rows.Length;
-            HashSet<Cell> extras = new();
-
-            int anchorY = height-1, anchorX = rows[anchorY].IndexOf('X');
-
-            if (anchorX == -1)
-            {
-                LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, "Shape:Parse - Shape pattern must contain at least one 'X'");
-                return new();
-            }
-
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < rows[y].Length; x++)
-                {
-                    if (rows[y][x] != 'X')
-                    {
-                        continue;
-                    }
-                    
-                    int foundX = x - anchorX, foundY = anchorY - y;
-
-                    if (foundX == 0 && foundY == 0) continue;
-
-                    extras.Add(new Cell { x = foundX, y = foundY });
-                }
-            }
-
-            return extras.Count > 0 ? new Shape(extras) : new Shape();
+            for (int dy = 0; dy < Height; dy++)
+                for (int dx = 0; dx < Width; dx++)
+                    yield return new Cell { x = dx, y = dy };
         }
     }
 }

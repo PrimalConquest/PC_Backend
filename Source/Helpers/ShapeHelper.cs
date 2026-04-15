@@ -1,22 +1,19 @@
-﻿using Newtonsoft.Json;
-using SimulationEngine.Source.Data.Geometry;
+using Newtonsoft.Json;
 using SimulationEngine.Source.Enums.Logging;
 using SimulationEngine.Source.Systems;
-using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 
 namespace SimulationEngine.Source.Helpers
 {
     public static class ShapeHelper
     {
-
         static string _resource = "Shapes.json";
 
-        public static string[]? Parse(string id)
+        /// <summary>
+        /// Returns (width, height) for the given shape id, or null if not found.
+        /// </summary>
+        public static (int width, int height)? Parse(string id)
         {
-            
             string? json = ResourceSystem.Get(_resource);
 
             if (json == null)
@@ -25,17 +22,21 @@ namespace SimulationEngine.Source.Helpers
                 return null;
             }
 
-            Dictionary<string, string[]>? shapeMap = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(json);
+            Dictionary<string, ShapeData>? shapeMap = JsonConvert.DeserializeObject<Dictionary<string, ShapeData>>(json);
 
-            if (shapeMap == null)
+            if (shapeMap == null || !shapeMap.TryGetValue(id, out ShapeData data))
             {
                 LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"ShapeHelper.Parse There is no shape with id: {id} in resource: {_resource}");
                 return null;
             }
 
-            return shapeMap[id];
-                
+            return (data.width, data.height);
         }
 
+        private class ShapeData
+        {
+            public int width  { get; set; }
+            public int height { get; set; }
+        }
     }
 }

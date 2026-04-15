@@ -1,10 +1,8 @@
-﻿using SimulationEngine.Source.Data.Geometry;
+using SimulationEngine.Source.Data.Geometry;
 using SimulationEngine.Source.Enums.Logging;
 using SimulationEngine.Source.Helpers;
 using SimulationEngine.Source.Systems;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SimulationEngine.Source.Factories
 {
@@ -15,17 +13,17 @@ namespace SimulationEngine.Source.Factories
         public static Shape GetShape(string shapeId)
         {
             if (_parsedShapes.ContainsKey(shapeId))
-            {
                 return _parsedShapes[shapeId];
-            }
-            string[]? sRows = ShapeHelper.Parse(shapeId);
 
-            if (sRows == null)
+            (int width, int height)? data = ShapeHelper.Parse(shapeId);
+
+            if (data == null)
             {
                 LogSystem.Log(ELogCategory.Debug, ELogLevel.Warning, $"ShapeFactory:GetShape There is no shape with id: {shapeId}");
-                return new();
+                return new Shape();
             }
-            Shape s = Shape.Parse(sRows);
+
+            Shape s = new Shape(data.Value.width, data.Value.height);
             _parsedShapes.Add(shapeId, s);
             return s;
         }
