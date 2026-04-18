@@ -10,6 +10,18 @@ namespace SimulationEngine.Source.Data.Geometry
         public int x;
         public int y;
 
+        public Cell(int X, int Y)
+        {
+            x = X;
+            y = Y;
+        }
+
+        public Cell(uint X, uint Y)
+        {
+            x = (int)X;
+            y = (int)Y;
+        }
+
         public override string ToString() => $"[X:{x}, Y:{y}]";
 
         public override bool Equals(object obj) => obj is Cell other && x == other.x && y == other.y;

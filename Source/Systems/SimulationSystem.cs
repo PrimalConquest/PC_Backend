@@ -105,64 +105,38 @@ namespace SimulationEngine.Source.Systems
        
 
 
-        public static bool GattherMoveStack(Board board, Dictionary<uint, Unit> boardUnits, uint unitId, EDirection direction, uint stepCount, 
-            Dictionary<Unit, (EDirection, uint)> moveStack, bool shouldFreeFall = false)
+        public static bool GattherMoveStack(Board board, Dictionary<uint, Unit> boardUnits, Unit unit, EDirection direction, MoveStack moveStack)
         {
+            List<(Unit stepedUnit, Cell position, uint step, EDirection direction)> currentStepGather = new();
+            currentStepGather.Add((unit, unit.Position, 1, direction));
 
-            Console.WriteLine($"TRIGGER: {unitId}");
+            List<(Unit stepedUnit, Cell position, uint step, EDirection direction)> nextStepGather = new();
 
-            if (!boardUnits.TryGetValue(unitId, out Unit unit))
+            while(currentStepGather.Count > 0)
             {
-                Console.WriteLine($"eeerrm {unitId}");
-                return false;
-            }
-
-            if (moveStack.ContainsKey(unit))
-            {
-                if (moveStack[unit].Item1 != direction || moveStack[unit].Item2 >= stepCount)
+                moveStack.NextTimeStep();
+                foreach (var move in currentStepGather)
                 {
-                    Console.WriteLine($"SHORT _ Move Stack: {moveStack.Count}");
-                    return true;
-                }
-                moveStack[unit] = (direction,stepCount);
-            }
-            else
-            {
-                moveStack.Add(unit, (direction, stepCount));
-            }
-
-           
-
-            Cell anchor = unit.Position;
-            (Cell, Cell, Cell) bounds = unit.Ocupation.GetWall(direction);
-            Cell start = anchor + bounds.Item1;
-            Cell end = anchor + bounds.Item2;
-            Cell step = bounds.Item3;
-            Cell movementVector = direction.ToVector();
-
-            for (Cell it = start; it != end+step; it+=step)
-            {
-
-                for(int i=1; i<stepCount+1; i++)
-                {
-                    if (!board.IsInBounds(it + movementVector*i))
+                    if (!move.stepedUnit.CanMove)
                     {
-                        moveStack.Clear();
-                        Console.WriteLine($"babag {unitId}");
+                        moveStack.Invalidate();
                         return false;
                     }
 
-                    if (!GattherMoveStack(board, boardUnits, board.Get(it + movementVector*i), direction.Opposite(), (uint)(unit.Ocupation.Extend() * movementVector).MagnitudeAbs(), moveStack, shouldFreeFall))
-                    {
-                        moveStack.Clear();
-                        Console.WriteLine($"fortnie {unitId}");
-                        return false;
-                    }
+                    Cell finalDestination = new(0,0);
+
+                    //calculate the actual move position
+
+                    //gather everything along the path in NextStepGather
+
+                    //after apply add to movestack
+                    moveStack.AddMoveInCurrentTimeStep(move.stepedUnit, finalDestination);
 
                 }
 
+                currentStepGather = nextStepGather;
+                nextStepGather = new();
             }
-            Console.WriteLine($"Move Stack: {moveStack.Count}");
 
             return true;
         }
