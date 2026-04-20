@@ -4,6 +4,6 @@
   "Priority": 2,
   "TargetingId": "TargetAllyCommander",
   "Specific": {
-    "Health": 20
+    "Health": { "Type": "Flat", "Value": 20 }
   }
 }

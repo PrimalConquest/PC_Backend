@@ -152,9 +152,28 @@ namespace SimulationEngine.Source.Logistic
             }
         }
 
-        public void Print()
+        public void _Print()
         {
             for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    Unit? unit = Get(new Cell { x = x, y = y });
+                    string id = unit == null ? "0" : unit.Id.ToString();
+                    int numSpace = 3 - id.Length;
+                    Console.Write($"| {id}");
+                    for (int i = 0; i < numSpace; i++) Console.Write(" ");
+                    Console.Write(" |");
+                }
+                Console.WriteLine();
+                for (int x = 0; x < Width; x++) Console.Write("-------");
+                Console.WriteLine();
+            }
+        }
+
+        public void _ReversePrint()
+        {
+            for (int y = Height-1; y >=0; y--)
             {
                 for (int x = 0; x < Width; x++)
                 {

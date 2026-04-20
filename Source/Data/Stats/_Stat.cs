@@ -11,14 +11,14 @@ using SimulationEngine.Source.Enums.Logging;
 
 namespace SimulationEngine.Source.Data.Stats
 {
-    internal class Stat
+    internal class _Stat
     {
         private Dictionary<EValueType, int> _values;
         private IEventBus<EValueType, StatPayload> _onGetStat;
         private IEventBus<EValueType, StatChangedPayload> _preStatChanged;
         private IEventBus<EValueType, StatChangedPayload> _postStatChanged;
 
-        public Stat()
+        public _Stat()
         {
             _values = new();
             _onGetStat = new PriorityEventBus<EValueType, StatPayload>();
@@ -26,17 +26,17 @@ namespace SimulationEngine.Source.Data.Stats
             _postStatChanged = new PriorityEventBus<EValueType, StatChangedPayload>();
         }
 
-        public Stat(int currentValue = 0) : this()
+        public _Stat(int currentValue = 0) : this()
         {
             RegisterValue(EValueType.Current, currentValue);
         }
 
-        public Stat( int currentValue, int minValue) : this(currentValue)
+        public _Stat( int currentValue, int minValue) : this(currentValue)
         {
             RegisterValue(EValueType.Min, minValue);
         }
 
-        public Stat(int currentValue, int minValue, int maxValue) : this(currentValue, minValue)
+        public _Stat(int currentValue, int minValue, int maxValue) : this(currentValue, minValue)
         {
             RegisterValue(EValueType.Max, maxValue);
         }

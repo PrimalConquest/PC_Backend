@@ -1,0 +1,9 @@
+{
+  "Class": "GrantStat",
+  "ActivationCost": 0,
+  "Priority": 2,
+  "TargetingId": "TargetAllySpecialUnits",
+  "Specific": {
+    "Energy": { "Type": "Relative", "Source": "Owner" }
+  }
+}

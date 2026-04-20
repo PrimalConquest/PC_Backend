@@ -4,6 +4,6 @@
   "Priority": 2,
   "TargetingId": "TargetSelf",
   "Specific": {
-    "Energy": 15
+    "Energy": { "Type": "Flat", "Value": 15 }
   }
 }

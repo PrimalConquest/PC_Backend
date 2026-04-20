@@ -55,7 +55,7 @@ namespace SimulationEngine.Source.Data.Commands
 
             MoveStack? moveStack = SimulationSystem.GattherMoveStack(_player.Board, _movingUnit, _direction);
 
-            if (moveStack != null)
+            if (moveStack == null)
             {
                 _player.Board.RollbackPositions(boardSnapshot);
             }
@@ -65,6 +65,8 @@ namespace SimulationEngine.Source.Data.Commands
             //if (unit == null) return;
 
             //SimulationSystem.ApplyMoveStack(_player.Board, moveStack);
+
+            //visualize the moves-----------------------------------------------------------------
 
             _maxRepetitions -= 1;
 

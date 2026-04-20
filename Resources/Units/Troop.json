@@ -3,8 +3,8 @@
   "ShapeId": "Tile",
   "StatSheetId": "TroopSheet",
   "AbilityMap": {
-    "Activate": "LaunchTroop",
-    "Die": "GrantEnergy"
+    "Activate": "GrantEnergyToAllies",
+    "Die": "_GrantEnergy"
   },
   "Effectmap": {
 

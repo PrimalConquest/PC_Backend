@@ -361,7 +361,7 @@ namespace SimulationEngine.Source.Systems
                 if (group.Value.Count > 2)
                     originUnit.UnitEventBus.Raise(EUnitEvent.Promote, new ValuePayload<int>(group.Value.Count - 3));
                 else
-                    originUnit.UnitEventBus.Raise(EUnitEvent.Promote, new EventPayload());
+                    originUnit.UnitEventBus.Raise(EUnitEvent.Activate, new EventPayload());
 
                 activated.Add(originUnit);
             }

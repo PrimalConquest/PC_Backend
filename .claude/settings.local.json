@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(del \"T:\\\\TU\\\\PrimalConquest\\\\SimulationEngine\\\\Source\\\\Data\\\\Abilities\\\\GrantStat.cs\")"
+    ]
+  }
+}
