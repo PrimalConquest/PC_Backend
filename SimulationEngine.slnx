@@ -1,3 +1,5 @@
 <Solution>
-  <Project Path="SimulationEngine.csproj" />
+  <Project Path="BattleServer/BattleServer.csproj" Id="40449de6-c2c2-4261-ad28-66f549dc24b9" />
+  <Project Path="SharedServices/SharedServices.csproj" Id="33608e30-93be-4901-aed8-ac10bd9f2fe9" />
+  <Project Path="SimulationEngine/SimulationEngine.csproj" />
 </Solution>
