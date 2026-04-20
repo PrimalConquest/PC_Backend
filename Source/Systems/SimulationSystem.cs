@@ -253,15 +253,9 @@ namespace SimulationEngine.Source.Systems
                     moveQueues[entry.Value.move.Direction][(int)entry.Value.column].Add((entry.Key, entry.Value.move));
                 }
 
-                Console.WriteLine(moveStack);
-                board.Print();
             }
 
             return moveStack;
-        }
-
-        public static void ApplyMoveStack(Board board, MoveStack moveStack)
-        {
         }
 
 

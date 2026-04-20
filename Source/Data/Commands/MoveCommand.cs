@@ -42,34 +42,23 @@ namespace SimulationEngine.Source.Data.Commands
             //if (_player.CurrentMoves < _moveCost) return false;
 
             //_player.BoardUnits.TryGetValue(_movingUnit, out Unit unit);
-            if (_movingUnit == null) return false;
-            //if (!unit.CanMove) return false;
+            return _movingUnit != null;
 
-            Dictionary<Unit, Cell> tempPositions = new();
-
-            foreach (KeyValuePair<uint, Unit> _unit in _player.BoardUnits)
-            {
-                tempPositions.Add(_unit.Value, _unit.Value.Position);
-            }
-
-            MoveStack? moveStack = SimulationSystem.GattherMoveStack(_player.Board, _movingUnit, _direction);
-            
-            if(moveStack != null)
-            {
-                Console.WriteLine($"Move stack: \n{moveStack}");
-                return true;
-            }
-            Console.WriteLine("Cannot move");
-            return false;
         }
 
         public void Execute()
         {
 
+            if (_movingUnit == null) return;
 
             var boardSnapshot = _player.Board.SnapshotPositions();
 
-            //_player.CurrentMoves -= _moveCost;
+            MoveStack? moveStack = SimulationSystem.GattherMoveStack(_player.Board, _movingUnit, _direction);
+
+            if (moveStack != null)
+            {
+                _player.Board.RollbackPositions(boardSnapshot);
+            }
             _moveCost = 0;
 
             //_player.BoardUnits.TryGetValue(_movingUnit, out Unit unit);
