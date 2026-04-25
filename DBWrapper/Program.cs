@@ -1,6 +1,6 @@
 using DBWrapper.Source.Context;
 using Microsoft.EntityFrameworkCore;
-using SharedServices.Source.Utils;
+using SharedUtils;
 
 namespace DBWrapper
 {
@@ -31,9 +31,6 @@ namespace DBWrapper
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
-
-            //app.MapControllers();
 
             app.Run();
         }

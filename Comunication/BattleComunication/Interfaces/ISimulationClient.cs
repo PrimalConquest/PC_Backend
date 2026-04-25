@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharedServices.Source.Interfaces
+namespace BattleComunication.Interfaces
 {
     public interface ISimulationClient
     {

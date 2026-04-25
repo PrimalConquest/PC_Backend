@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using SharedServices.Source.Interfaces;
+﻿using BattleComunication.Interfaces;
+using Microsoft.AspNetCore.SignalR;
 using SimulationEngine.Source.Interfaces;
 using SimulationEngine.Source.Logistic;
 using SimulationEngine.Source.Systems;

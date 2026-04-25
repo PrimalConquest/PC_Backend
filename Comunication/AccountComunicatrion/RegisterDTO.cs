@@ -1,6 +1,10 @@
-﻿namespace SharedServices.Source.DTOs.DB
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace AccountComunication
 {
-    public class RegisterUserDTO
+    internal class RegisterDTO
     {
         public string UserName { get; set; } = "";
         public string Email { get; set; } = "";
