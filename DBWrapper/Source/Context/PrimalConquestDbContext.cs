@@ -11,13 +11,15 @@ namespace DBWrapper.Source.Context
 
         public DbSet<UserLoadout> UserLoadouts { get; set; }
         public DbSet<UserStats> UserStats { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
-            base.OnModelCreating(mb); 
+            base.OnModelCreating(mb);
             mb.ApplyConfiguration(new UserConfig());
             mb.ApplyConfiguration(new UserLoadoutConfig());
             mb.ApplyConfiguration(new UserStatsConfig());
+            mb.ApplyConfiguration(new RefreshTokenConfig());
         }
     }
 }

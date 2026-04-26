@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using SharedUtils.Source.Logging;
+using SharedUtils;
 
 namespace SharedServices
 {

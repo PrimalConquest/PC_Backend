@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharedServices
+namespace SharedUtils
 {
-    internal class ErrorResponseDTO
+    public class ErrorResponseDTO
     {
         public int ErrorCode { get; set; }
         public string Message { get; set; } = "";
