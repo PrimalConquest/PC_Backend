@@ -4,6 +4,7 @@
     <Project Path="Comunication/AccountComunicatrion/AccountComunication.csproj" />
     <Project Path="Comunication/BattleComunication/BattleComunication.csproj" />
     <Project Path="Comunication/LoadoutComunication/LoadoutComunication.csproj" />
+    <Project Path="Comunication/MatchmakingComunication/MatchmakingComunication.csproj" Id="d5e3e809-fc4c-44a8-8c3a-70f54b57e019" />
   </Folder>
   <Project Path="BattleServer/BattleServer.csproj" Id="40449de6-c2c2-4261-ad28-66f549dc24b9" />
   <Project Path="DBWrapper/DBWrapper.csproj" Id="27d75fb2-5352-4ea0-b146-cbe904d113cf" />

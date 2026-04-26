@@ -1,6 +1,8 @@
+using CommunicationShared;
+
 namespace LoadoutComunication
 {
-    public class UserStatsDTO
+    public class UserStatsDTO : DTO<UserStatsDTO>
     {
         public int RankPoints { get; set; }
     }
