@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.SignalR;
 namespace Matchmaking.Source.Hubs
 {
     [Authorize]
-    public class MatchmakingHub : Hub<IMatchmakingClient>
+    public class MatchmakingHub : Hub<IMatchmakingClient>, IMatchmakingHub
     {
         readonly MatchmakingQueue _queue;
         readonly DbWrapperClient  _db;

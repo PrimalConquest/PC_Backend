@@ -6,6 +6,6 @@ namespace LoadoutComunication
     public class LoadoutDTO : DTO<LoadoutDTO>
     {
         public string CommanderId { get; set; } = "";
-        public List<string> OfficerIds { get; set; } = new();
+        public List<string> OfficerIds { get; set; } = new List<string>();
     }
 }

@@ -62,6 +62,9 @@ namespace DBWrapper
             })
             .AddJwtBearer(o =>
             {
+                // Keep claim names exactly as written in the JWT ("sub", "unique_name", etc.)
+                // so FindFirstValue(JwtRegisteredClaimNames.Sub) works as expected.
+                o.MapInboundClaims = false;
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer           = true,
@@ -180,6 +183,12 @@ namespace DBWrapper
                 await db.RefreshTokens
                     .Where(t => t.UserId == user.Id)
                     .ExecuteDeleteAsync();
+
+                // Backfill rows that should have been created at registration.
+                if (!await db.UserLoadouts.AnyAsync(x => x.UserId == user.Id))
+                    db.UserLoadouts.Add(new UserLoadout { UserId = user.Id });
+                if (!await db.UserStats.AnyAsync(x => x.UserId == user.Id))
+                    db.UserStats.Add(new UserStats { UserId = user.Id });
 
                 var (raw, token) = BuildRefreshToken(user.Id);
                 db.RefreshTokens.Add(token);

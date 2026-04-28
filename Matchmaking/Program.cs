@@ -36,6 +36,9 @@ namespace Matchmaking
             })
             .AddJwtBearer(o =>
             {
+                // Keep claim names exactly as written in the JWT ("sub", "unique_name", etc.)
+                // so FindFirstValue(JwtRegisteredClaimNames.Sub) works as expected.
+                o.MapInboundClaims = false;
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer           = true,
