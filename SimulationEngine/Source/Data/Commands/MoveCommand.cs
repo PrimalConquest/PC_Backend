@@ -2,8 +2,6 @@ using SharedUtils.Source.Logging;
 using SimulationEngine.Source.Data.Geometry;
 using SimulationEngine.Source.Data.Units;
 using SimulationEngine.Source.Enums;
-using SimulationEngine.Source.Enums.EventTypes;
-using SimulationEngine.Source.Enums.Stats;
 using SimulationEngine.Source.Factories.Commands.CommandInfos;
 using SimulationEngine.Source.Interfaces;
 using SimulationEngine.Source.Logistic;
@@ -13,66 +11,58 @@ namespace SimulationEngine.Source.Data.Commands
 {
     public class MoveCommand : IGameCommand
     {
-        Player _player;
-        Unit? _movingUnit;
+        Player     _player;
+        Unit?      _movingUnit;
         EDirection _direction;
-        int _moveCost;
-        int _maxRepetitions;
-        MoveStack? moveStack;
 
-        public MoveCommand(Player player, MoveCommandInfo info ) : this(player, info.Position, info.Direction) { }
+        public MoveCommand(Player player, MoveCommandInfo info) : this(player, info.Position, info.Direction) { }
+
         protected MoveCommand(Player player, Cell pos, EDirection direction)
         {
-            _player = player;
+            _player     = player;
             _movingUnit = _player.Board.Get(pos);
-            _direction = (direction);
+            _direction  = direction;
+
             if (_movingUnit == null)
-            {
-                LogSystem.Log(ELogCategory.Debug, ELogLevel.Error, $"Move - Trying to move pos[x:{pos.x}, y:{pos.y}] unit[{_movingUnit}] that is not on the board");
-                return;
-            }
-            //_maxRepetitions = unit.GetStat(EStat.MoveSpeed);
-            _maxRepetitions = 1;//////////
-            _moveCost = 1;// unit.GetStat(EStat.MoveCost);
+                LogSystem.Log(ELogCategory.Debug, ELogLevel.Error,
+                    $"MoveCommand - no unit at [{pos.x},{pos.y}]");
         }
 
         public bool CanExecute()
         {
             if (SimulationSystem.ActiveGame.CurrentPlayer != _player) return false;
-            if (_player.CurrentMoves < _moveCost) return false;
-
-            //_player.BoardUnits.TryGetValue(_movingUnit, out Unit unit);
+            if (_player.CurrentMoves < 1) return false;
             return _movingUnit != null;
-
         }
 
         public void Execute()
         {
-
             if (_movingUnit == null) return;
 
-            var boardSnapshot = _player.Board.SnapshotPositions();
+            var before = _player.Board.SnapshotPositions();
 
-            MoveStack? moveStack = SimulationSystem.GattherMoveStack(_player.Board, _movingUnit, _direction);
+            MoveStack? moveStack = SimulationSystem.GattherMoveStack(
+                _player.Board, _movingUnit, _direction);
 
             if (moveStack == null)
             {
-                _player.Board.RollbackPositions(boardSnapshot);
-
-                _moveCost = 0;
+                _player.Board.RollbackPositions(before);
+                SimulationSystem.CheckStateChain();
+                return;
             }
-            _player.CurrentMoves -= _moveCost;
-            //_player.BoardUnits.TryGetValue(_movingUnit, out Unit unit);
-            //if (unit == null) return;
 
-            //SimulationSystem.ApplyMoveStack(_player.Board, moveStack);
+            // Cost exactly 1 move regardless of how many units were pushed.
+            _player.CurrentMoves -= 1;
 
-            //visualize the moves-----------------------------------------------------------------
+            // Seed match detection for every cell whose occupant changed.
+            var after = _player.Board.SnapshotPositions();
+            foreach (var kv in after)
+            {
+                if (!before.TryGetValue(kv.Key, out Cell prev) || prev != kv.Value)
+                    SimulationSystem.CheckForMatchPositions.Add(kv.Value);
+            }
 
-            _maxRepetitions -= 1;
-
-            if (_maxRepetitions > 0 && CanExecute()) Execute();
-            else SimulationSystem.CheckStateChain();
+            SimulationSystem.CheckStateChain();
         }
     }
 }

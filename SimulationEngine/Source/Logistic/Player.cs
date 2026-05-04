@@ -64,8 +64,11 @@ namespace SimulationEngine.Source.Logistic
             SimulationSystem.SetupBoard(this);
         }
 
+        const int BaseMoves = 0;
+
         public void OnTurnStart()
         {
+            CurrentMoves = BaseMoves;
             ValueChangedPayload<int> _payload = new(0, CurrentMoves);
             PlayerEventBus.Raise(EGameEvent.TurnStart, _payload);
             CurrentMoves = _payload.Value;
