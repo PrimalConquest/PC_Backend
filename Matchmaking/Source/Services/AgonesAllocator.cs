@@ -53,7 +53,10 @@ namespace Matchmaking.Source.Services
                     namespaceParameter: Namespace,
                     plural:             "gameserverallocations");
 
-                var jObj  = JObject.Parse(JsonConvert.SerializeObject(result));
+                // The k8s client returns System.Text.Json.JsonElement — Newtonsoft
+                // cannot serialize it correctly, so use STJ here.
+                var rawJson = System.Text.Json.JsonSerializer.Serialize(result);
+                var jObj  = JObject.Parse(rawJson);
                 var state = jObj["status"]?["state"]?.ToString();
 
                 if (state != "Allocated")

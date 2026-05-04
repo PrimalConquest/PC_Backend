@@ -15,13 +15,29 @@ namespace BattleServer.Source.Services
 
         protected override async Task ExecuteAsync(CancellationToken ct)
         {
-            await _agones.ReadyAsync();
-            _log.LogInformation("Agones: GameServer marked Ready");
-
-            while (!ct.IsCancellationRequested)
+            try
             {
-                await _agones.HealthAsync();
-                await Task.Delay(1_900, ct);
+                while (!ct.IsCancellationRequested)
+                {
+                    await _agones.ReadyAsync();
+                    var json = await _agones.GetGameServerJsonAsync();
+                    if (json != null)
+                    {
+                        _log.LogInformation("Agones: GameServer marked Ready");
+                        break;
+                    }
+                    await Task.Delay(500, ct);
+                }
+
+                while (!ct.IsCancellationRequested)
+                {
+                    await _agones.HealthAsync();
+                    await Task.Delay(1_900, ct);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // Normal host shutdown — not an error.
             }
         }
     }
